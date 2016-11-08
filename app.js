@@ -31,7 +31,7 @@ app.post('/webhook', function(req, res) {
                 menuOpciones(event.sender.id);
             } else if (event.message.text == 'Recarga' || event.message.text == 'recarga' || event.message.text == 'r' || event.message.text == 'R') {
                 seleccionarCompania(event.sender.id);
-            } else if (event.message.quick_reply) {
+            } else if (typeof event.message['quick_reply'] != 'undefined') {
                 var p = event.message.quick_reply.payload;
                 console.log(JSON.stringify(p))
                 if (p.paso == 'COMPANIA') {
@@ -120,63 +120,62 @@ function seleccionarMonto(recipientId, p) {
             "message": {
                 "text": "Pick a color:",
                 "quick_replies": [{
-                        "content_type": "text",
-                        "title": "$10",
-                        "payload": {
-                            "paso": "MONTO",
-                            "compania": p.compania,
-                            "monto": 10
-                        }
-                    },{
-                        "content_type": "text",
-                        "title": "$20",
-                        "payload": {
-                            "paso": "MONTO",
-                            "compania": p.compania,
-                            "monto": 20
-                        }
-                    },{
-                        "content_type": "text",
-                        "title": "$30",
-                        "payload": {
-                            "paso": "MONTO",
-                            "compania": p.compania,
-                            "monto": 30
-                        }
-                    },{
-                        "content_type": "text",
-                        "title": "$50",
-                        "payload": {
-                            "paso": "MONTO",
-                            "compania": p.compania,
-                            "monto": 50
-                        }
-                    },{
-                        "content_type": "text",
-                        "title": "$100",
-                        "payload": {
-                            "paso": "MONTO",
-                            "compania": p.compania,
-                            "monto": 100
-                        }
-                    },{
-                        "content_type": "text",
-                        "title": "$200",
-                        "payload": {
-                            "paso": "MONTO",
-                            "compania": p.compania,
-                            "monto": 200
-                        }
-                    },{
-                        "content_type": "text",
-                        "title": "$500.00",
-                        "payload": {
-                            "paso": "MONTO",
-                            "compania": p.compania,
-                            "monto": 500
-                        }
+                    "content_type": "text",
+                    "title": "$10",
+                    "payload": {
+                        "paso": "MONTO",
+                        "compania": p.compania,
+                        "monto": 10
                     }
-                ]
+                }, {
+                    "content_type": "text",
+                    "title": "$20",
+                    "payload": {
+                        "paso": "MONTO",
+                        "compania": p.compania,
+                        "monto": 20
+                    }
+                }, {
+                    "content_type": "text",
+                    "title": "$30",
+                    "payload": {
+                        "paso": "MONTO",
+                        "compania": p.compania,
+                        "monto": 30
+                    }
+                }, {
+                    "content_type": "text",
+                    "title": "$50",
+                    "payload": {
+                        "paso": "MONTO",
+                        "compania": p.compania,
+                        "monto": 50
+                    }
+                }, {
+                    "content_type": "text",
+                    "title": "$100",
+                    "payload": {
+                        "paso": "MONTO",
+                        "compania": p.compania,
+                        "monto": 100
+                    }
+                }, {
+                    "content_type": "text",
+                    "title": "$200",
+                    "payload": {
+                        "paso": "MONTO",
+                        "compania": p.compania,
+                        "monto": 200
+                    }
+                }, {
+                    "content_type": "text",
+                    "title": "$500.00",
+                    "payload": {
+                        "paso": "MONTO",
+                        "compania": p.compania,
+                        "monto": 500
+                    }
+                }]
             }
         }
     }, function(error, response, body) {
