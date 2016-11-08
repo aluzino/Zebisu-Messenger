@@ -29,6 +29,8 @@ app.post('/webhook', function(req, res) {
         if (event.message && event.message.text) {
             if (event.message.text == 'recarga' || event.message.text == 'recarga') {
                 seleccionarCompania(event.sender.id, { text: "Echo: " + event.message.text });
+            } else if (event.message.gequick_reply) {
+                console.log(event.message.gequick_reply);
             }
         }
     }
