@@ -33,6 +33,7 @@ app.post('/webhook', function(req, res) {
                 seleccionarCompania(event.sender.id);
             } else if (event.message['quick_reply']) {
                 var p = event.message.quick_reply.payload;
+                p = JSON.parse(String(p));
                 console.log(p)
                 if (p.paso == 'COMPANIA') {
                     seleccionarMonto(event.sender.id, p);
