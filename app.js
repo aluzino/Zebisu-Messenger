@@ -27,10 +27,12 @@ app.post('/webhook', function(req, res) {
     for (i = 0; i < events.length; i++) {
         var event = events[i];
         if (event.message && event.message.text) {
-            if (event.message.text == 'recarga' || event.message.text == 'recarga') {
+            if (event.message.text == 'Hola' || event.message.text == 'hola') {
+
+            } else if (event.message.text == 'Recarga' || event.message.text == 'recarga' || event.message.text == 'r' || event.message.text == 'R') {
                 seleccionarCompania(event.sender.id, { text: "Echo: " + event.message.text });
-            } else if (event.message.gequick_reply) {
-                console.log(event.message.gequick_reply);
+            } else if (event.message.quick_reply) {
+                console.log(event.message.quick_reply);
             }
         }
     }
