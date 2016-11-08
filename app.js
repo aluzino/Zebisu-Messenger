@@ -107,31 +107,31 @@ function seleccionarMonto(recipientId, p) {
                 "quick_replies": [{
                     "content_type": "text",
                     "title": "$10",
-                    "payload": "{ 'paso': 'COMPANIA', 'compania': 'Movistar', 'monto': '10' }"
+                    "payload": "{ 'paso': 'MONTO', 'compania': 'Movistar', 'monto': '10' }"
                 }, {
                     "content_type": "text",
                     "title": "$20",
-                    "payload": "{ 'paso': 'COMPANIA', 'compania': 'Movistar', 'monto': '20' }"
+                    "payload": "{ 'paso': 'MONTO', 'compania': 'Movistar', 'monto': '20' }"
                 }, {
                     "content_type": "text",
                     "title": "$30",
-                    "payload": "{ 'paso': 'COMPANIA', 'compania': 'Movistar', 'monto': '30' }"
+                    "payload": "{ 'paso': 'MONTO', 'compania': 'Movistar', 'monto': '30' }"
                 }, {
                     "content_type": "text",
                     "title": "$50",
-                    "payload": "{ 'paso': 'COMPANIA', 'compania': 'Movistar', 'monto': '50' }"
+                    "payload": "{ 'paso': 'MONTO', 'compania': 'Movistar', 'monto': '50' }"
                 }, {
                     "content_type": "text",
                     "title": "$100",
-                    "payload": "{ 'paso': 'COMPANIA', 'compania': 'Movistar', 'monto': '100' }"
+                    "payload": "{ 'paso': 'MONTO', 'compania': 'Movistar', 'monto': '100' }"
                 }, {
                     "content_type": "text",
                     "title": "$200",
-                    "payload": "{ 'paso': 'COMPANIA', 'compania': 'Movistar', 'monto': '200' }"
+                    "payload": "{ 'paso': 'MONTO', 'compania': 'Movistar', 'monto': '200' }"
                 }, {
                     "content_type": "text",
                     "title": "$500.00",
-                    "payload": "{ 'paso': 'COMPANIA', 'compania': 'Movistar', 'monto': '500' }"
+                    "payload": "{ 'paso': 'MONTO', 'compania': 'Movistar', 'monto': '500' }"
                 }]
             }
         }
