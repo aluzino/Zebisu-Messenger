@@ -34,8 +34,11 @@ app.post('/webhook', function(req, res) {
             } else if (event.message['quick_reply']) {
                 var p = event.message.quick_reply.payload;
                 p = JSON.parse(p.replace(/\'/g, "\""));
+                console.log(p);
                 if (p.paso == 'COMPANIA') {
                     seleccionarMonto(event.sender.id, p);
+                } else if (p.paso == 'MONTO') {
+                    confirmarRecarga(event.sender.id, p);
                 }
             }
         }
@@ -103,7 +106,7 @@ function seleccionarMonto(recipientId, p) {
         json: {
             recipient: { id: recipientId },
             "message": {
-                "text": "Pick a color:",
+                "text": "Selecciona un monto:",
                 "quick_replies": [{
                     "content_type": "text",
                     "title": "$10",
@@ -130,8 +133,41 @@ function seleccionarMonto(recipientId, p) {
                     "payload": "{ 'paso': 'MONTO', 'compania': '" + p.compania + "', 'monto': '200' }"
                 }, {
                     "content_type": "text",
-                    "title": "$500.00",
+                    "title": "$300",
+                    "payload": "{ 'paso': 'MONTO', 'compania': '" + p.compania + "', 'monto': '300' }"
+                }, {
+                    "content_type": "text",
+                    "title": "$500",
                     "payload": "{ 'paso': 'MONTO', 'compania': '" + p.compania + "', 'monto': '500' }"
+                }]
+            }
+        }
+    }, function(error, response, body) {
+        if (error) {
+            console.log('Error sending message: ', error);
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error);
+        }
+    });
+}
+
+function confirmarRecarga(recipientId, p) {
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+        method: 'POST',
+        json: {
+            recipient: { id: recipientId },
+            "message": {
+                "text": "Confirmar recarga:",
+                "quick_replies": [{
+                    "content_type": "text",
+                    "title": "Confirmar",
+                    "payload": "{ 'paso': 'CONFR', 'compania': '" + p.compania + "', 'monto': '" + p.monto + "', 'confirmar': true }"
+                }, {
+                    "content_type": "text",
+                    "title": "Declinar",
+                    "payload": "{ 'paso': 'CONFR', 'compania': '" + p.compania + "', 'monto': '" + p.monto + "', 'confirmar': false }"
                 }]
             }
         }
