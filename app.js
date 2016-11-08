@@ -34,9 +34,9 @@ app.post('/webhook', function(req, res) {
             } else if (event.message['quick_reply']) {
                 var p = event.message.quick_reply.payload;
                 console.log(p)
-                    //if (p.paso == 'COMPANIA') {
-                    //seleccionarMonto(event.sender.id, p);
-                    //}
+                if (p.paso == 'COMPANIA') {
+                    seleccionarMonto(event.sender.id, p);
+                }
             }
         }
     }
