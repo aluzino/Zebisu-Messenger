@@ -31,6 +31,12 @@ app.post('/webhook', function(req, res) {
                 menuOpciones(event.sender.id);
             } else if (event.message.text == 'Recarga' || event.message.text == 'recarga' || event.message.text == 'r' || event.message.text == 'R') {
                 seleccionarCompania(event.sender.id);
+            } else if (typeof event.message['quick_reply'] != 'undefined') {
+                var p = JSON.parse(event.message.quick_reply.payload);
+                console.log(JSON.stringify(p))
+                if (p.paso == 'COMPANIA') {
+                    seleccionarMonto(event.sender.id, p);
+                }
             }
         }
     }
@@ -54,42 +60,27 @@ function seleccionarCompania(recipientId, message) {
                 "quick_replies": [{
                         "content_type": "text",
                         "title": "Telcel",
-                        "payload": {
-                            "paso": "COMPANIA",
-                            "compania": "Telcel"
-                        }
+                        "payload": "{ 'paso': 'COMPANIA', 'compania': 'Telcel' }"
                     },
                     {
                         "content_type": "text",
                         "title": "Movistar",
-                        "payload": {
-                            "paso": "COMPANIA",
-                            "compania": "Movistar"
-                        }
+                        "payload": "{ 'paso': 'COMPANIA', 'compania': 'Movistar' }"
                     },
                     {
                         "content_type": "text",
                         "title": "Unefon",
-                        "payload": {
-                            "paso": "COMPANIA",
-                            "compania": "Unefon"
-                        }
+                        "payload": "{ 'paso': 'COMPANIA', 'compania': 'Unefon' }"
                     },
                     {
                         "content_type": "text",
                         "title": "Virgin",
-                        "payload": {
-                            "paso": "COMPANIA",
-                            "compania": "Virgin"
-                        }
+                        "payload": "{ 'paso': 'COMPANIA', 'compania': 'Virgin' }"
                     },
                     {
                         "content_type": "text",
                         "title": "Tuenti",
-                        "payload": {
-                            "paso": "COMPANIA",
-                            "compania": "Tuenti"
-                        }
+                        "payload": "{ 'paso': 'COMPANIA', 'compania': 'Tuenti' }"
                     }
                 ]
             }
@@ -116,59 +107,31 @@ function seleccionarMonto(recipientId, p) {
                 "quick_replies": [{
                     "content_type": "text",
                     "title": "$10",
-                    "payload": {
-                        "paso": "MONTO",
-                        "compania": p.compania,
-                        "monto": 10
-                    }
+                    "payload": "{ 'paso': 'COMPANIA', 'compania': 'Movistar', 'monto': '10' }"
                 }, {
                     "content_type": "text",
                     "title": "$20",
-                    "payload": {
-                        "paso": "MONTO",
-                        "compania": p.compania,
-                        "monto": 20
-                    }
+                    "payload": "{ 'paso': 'COMPANIA', 'compania': 'Movistar', 'monto': '20' }"
                 }, {
                     "content_type": "text",
                     "title": "$30",
-                    "payload": {
-                        "paso": "MONTO",
-                        "compania": p.compania,
-                        "monto": 30
-                    }
+                    "payload": "{ 'paso': 'COMPANIA', 'compania': 'Movistar', 'monto': '30' }"
                 }, {
                     "content_type": "text",
                     "title": "$50",
-                    "payload": {
-                        "paso": "MONTO",
-                        "compania": p.compania,
-                        "monto": 50
-                    }
+                    "payload": "{ 'paso': 'COMPANIA', 'compania': 'Movistar', 'monto': '50' }"
                 }, {
                     "content_type": "text",
                     "title": "$100",
-                    "payload": {
-                        "paso": "MONTO",
-                        "compania": p.compania,
-                        "monto": 100
-                    }
+                    "payload": "{ 'paso': 'COMPANIA', 'compania': 'Movistar', 'monto': '100' }"
                 }, {
                     "content_type": "text",
                     "title": "$200",
-                    "payload": {
-                        "paso": "MONTO",
-                        "compania": p.compania,
-                        "monto": 200
-                    }
+                    "payload": "{ 'paso': 'COMPANIA', 'compania': 'Movistar', 'monto': '200' }"
                 }, {
                     "content_type": "text",
                     "title": "$500.00",
-                    "payload": {
-                        "paso": "MONTO",
-                        "compania": p.compania,
-                        "monto": 500
-                    }
+                    "payload": "{ 'paso': 'COMPANIA', 'compania': 'Movistar', 'monto': '500' }"
                 }]
             }
         }
