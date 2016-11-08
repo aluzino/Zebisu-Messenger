@@ -27,7 +27,9 @@ app.post('/webhook', function(req, res) {
     for (i = 0; i < events.length; i++) {
         var event = events[i];
         if (event.message && event.message.text) {
-            if (event.message.text == 'Hola' || event.message.text == 'hola') {
+            if (event.message.text == 'ID') {
+                mensaje(event.sender.id, 'Tu id para activar el servicio es: ' + event.sender.id);
+            } else if (event.message.text == 'Hola' || event.message.text == 'hola') {
                 menuOpciones(event.sender.id);
             } else if (event.message.text == 'Recarga' || event.message.text == 'recarga' || event.message.text == 'r' || event.message.text == 'R') {
                 seleccionarCompania(event.sender.id);
@@ -42,6 +44,8 @@ app.post('/webhook', function(req, res) {
                     seleccionarMonto(event.sender.id, p);
                 } else if (p.paso == 'MONTO') {
                     confirmarRecarga(event.sender.id, p);
+                } else {
+                    mensaje(event.sender.id, 'No tenemos nada para la opcion seleccionada 😔');
                 }
             }
         }
@@ -65,7 +69,7 @@ function menuOpciones(recipientId) {
                 }, {
                     "content_type": "text",
                     "title": "Datos",
-                    "payload": "{ 'paso': 'DATOS' }"
+                    "payload": ""
                 }, {
                     "content_type": "text",
                     "title": "Consultar saldo",
@@ -215,6 +219,26 @@ function confirmarRecarga(recipientId, p) {
                     "title": "Declinar",
                     "payload": "{ 'paso': 'CONFR', 'compania': '" + p.compania + "', 'monto': '" + p.monto + "', 'confirmar': false }"
                 }]
+            }
+        }
+    }, function(error, response, body) {
+        if (error) {
+            console.log('Error sending message: ', error);
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error);
+        }
+    });
+}
+
+function mensaje(recipientId, texto) {
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+        method: 'POST',
+        json: {
+            recipient: { id: recipientId },
+            "message": {
+                "text": texto
             }
         }
     }, function(error, response, body) {
