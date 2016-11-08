@@ -33,7 +33,7 @@ app.post('/webhook', function(req, res) {
                 seleccionarCompania(event.sender.id);
             } else if (event.message['quick_reply']) {
                 var p = event.message.quick_reply.payload;
-                p = JSON.parse(p.replace("'", ""));
+                p = JSON.parse(p.replace('/', '"'));
                 console.log(p)
                 if (p.paso == 'COMPANIA') {
                     seleccionarMonto(event.sender.id, p);
@@ -61,7 +61,7 @@ function seleccionarCompania(recipientId, message) {
                 "quick_replies": [{
                         "content_type": "text",
                         "title": "Telcel",
-                        "payload": "{ 'paso': 'COMPANIA', 'compania': 'Telcel' }"
+                        "payload": "{ /paso/: /COMPANIA/, /compania/: /Telcel/ }"
                     },
                     {
                         "content_type": "text",
