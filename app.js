@@ -27,15 +27,63 @@ app.post('/webhook', function(req, res) {
     for (i = 0; i < events.length; i++) {
         var event = events[i];
         if (event.message && event.message.text) {
-            sendMessage(event.sender.id, { text: "Echo: " + event.message.text });
+            if (event.message.text == 'recarga' || event.message.text == 'recarga') {
+                seleccionarCompania(event.sender.id, { text: "Echo: " + event.message.text });
+            }
         }
     }
     res.sendStatus(200);
 });
 
 
+function obtenerMontos(recipientId, message) {
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+        method: 'POST',
+        json: {
+            recipient: { id: recipientId },
+            "message": {
+                "text": "Pick a color:",
+                "quick_replies": [{
+                        "content_type": "text",
+                        "title": "Telcel",
+                        "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_TELCEL"
+                    },
+                    {
+                        "content_type": "text",
+                        "title": "Movistar",
+                        "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_MOVISTAR"
+                    },
+                    {
+                        "content_type": "text",
+                        "title": "Unefon",
+                        "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_UNEFON"
+                    },
+                    {
+                        "content_type": "text",
+                        "title": "Virgin",
+                        "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_VIRGIN"
+                    },
+                    {
+                        "content_type": "text",
+                        "title": "Tuenti",
+                        "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_TUENTI"
+                    }
+                ]
+            }
+        }
+    }, function(error, response, body) {
+        if (error) {
+            console.log('Error sending message: ', error);
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error);
+        }
+    });
+}
 
-function sendMessage(recipientId, message) {
+
+function seleccionarCompania(recipientId, message) {
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
@@ -64,4 +112,4 @@ function sendMessage(recipientId, message) {
             console.log('Error: ', response.body.error);
         }
     });
-};
+}
