@@ -38,11 +38,24 @@ app.post('/webhook', function(req, res) {
 function sendMessage(recipientId, message) {
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token: process.env.PAGE_ACCESS_TOKEN},
+        qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
         method: 'POST',
         json: {
-            recipient: {id: recipientId},
-            message: message,
+            recipient: { id: recipientId },
+            "message": {
+                "text": "Pick a color:",
+                "quick_replies": [{
+                        "content_type": "text",
+                        "title": "Red",
+                        "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED"
+                    },
+                    {
+                        "content_type": "text",
+                        "title": "Green",
+                        "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
+                    }
+                ]
+            }
         }
     }, function(error, response, body) {
         if (error) {
