@@ -28,16 +28,24 @@ app.post('/webhook', function(req, res) {
         var event = events[i];
         if (event.message && event.message.text) {
             if (event.message.text == 'Hola' || event.message.text == 'hola') {
-
+                menuOpciones(event.sender.id);
             } else if (event.message.text == 'Recarga' || event.message.text == 'recarga' || event.message.text == 'r' || event.message.text == 'R') {
-                seleccionarCompania(event.sender.id, { text: "Echo: " + event.message.text });
+                seleccionarCompania(event.sender.id);
             } else if (event.message.quick_reply) {
-                console.log(event.message.quick_reply);
+                var p = event.message.quick_reply.payload;
+                console.log(JSON.stringify(p))
+                if (p.paso == 'COMPANIA') {
+                    seleccionarMonto(event.sender.id, p);
+                }
             }
         }
     }
     res.sendStatus(200);
 });
+
+function menuOpciones(recipientId) {
+
+}
 
 
 function seleccionarCompania(recipientId, message) {
@@ -52,27 +60,42 @@ function seleccionarCompania(recipientId, message) {
                 "quick_replies": [{
                         "content_type": "text",
                         "title": "Telcel",
-                        "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_TELCEL"
+                        "payload": {
+                            "paso": "COMPANIA",
+                            "compania": "Telcel"
+                        }
                     },
                     {
                         "content_type": "text",
                         "title": "Movistar",
-                        "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_MOVISTAR"
+                        "payload": {
+                            "paso": "COMPANIA",
+                            "compania": "Movistar"
+                        }
                     },
                     {
                         "content_type": "text",
                         "title": "Unefon",
-                        "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_UNEFON"
+                        "payload": {
+                            "paso": "COMPANIA",
+                            "compania": "Unefon"
+                        }
                     },
                     {
                         "content_type": "text",
                         "title": "Virgin",
-                        "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_VIRGIN"
+                        "payload": {
+                            "paso": "COMPANIA",
+                            "compania": "Virgin"
+                        }
                     },
                     {
                         "content_type": "text",
                         "title": "Tuenti",
-                        "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_TUENTI"
+                        "payload": {
+                            "paso": "COMPANIA",
+                            "compania": "Tuenti"
+                        }
                     }
                 ]
             }
@@ -87,7 +110,7 @@ function seleccionarCompania(recipientId, message) {
 }
 
 
-function seleccionarMonto(recipientId, message) {
+function seleccionarMonto(recipientId, p) {
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
@@ -98,13 +121,60 @@ function seleccionarMonto(recipientId, message) {
                 "text": "Pick a color:",
                 "quick_replies": [{
                         "content_type": "text",
-                        "title": "Red",
-                        "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED"
-                    },
-                    {
+                        "title": "$10",
+                        "payload": {
+                            "paso": "MONTO",
+                            "compania": p.compania,
+                            "monto": 10
+                        }
+                    },{
                         "content_type": "text",
-                        "title": "Green",
-                        "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
+                        "title": "$20",
+                        "payload": {
+                            "paso": "MONTO",
+                            "compania": p.compania,
+                            "monto": 20
+                        }
+                    },{
+                        "content_type": "text",
+                        "title": "$30",
+                        "payload": {
+                            "paso": "MONTO",
+                            "compania": p.compania,
+                            "monto": 30
+                        }
+                    },{
+                        "content_type": "text",
+                        "title": "$50",
+                        "payload": {
+                            "paso": "MONTO",
+                            "compania": p.compania,
+                            "monto": 50
+                        }
+                    },{
+                        "content_type": "text",
+                        "title": "$100",
+                        "payload": {
+                            "paso": "MONTO",
+                            "compania": p.compania,
+                            "monto": 100
+                        }
+                    },{
+                        "content_type": "text",
+                        "title": "$200",
+                        "payload": {
+                            "paso": "MONTO",
+                            "compania": p.compania,
+                            "monto": 200
+                        }
+                    },{
+                        "content_type": "text",
+                        "title": "$500.00",
+                        "payload": {
+                            "paso": "MONTO",
+                            "compania": p.compania,
+                            "monto": 500
+                        }
                     }
                 ]
             }
