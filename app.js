@@ -35,7 +35,10 @@ app.post('/webhook', function(req, res) {
                 var p = event.message.quick_reply.payload;
                 p = JSON.parse(p.replace(/\'/g, "\""));
                 console.log(p);
-                if (p.paso == 'COMPANIA') {
+
+                if (p.paso == 'RECARGA') {
+                    seleccionarCompania(event.sender.id);
+                } else if (p.paso == 'COMPANIA') {
                     seleccionarMonto(event.sender.id, p);
                 } else if (p.paso == 'MONTO') {
                     confirmarRecarga(event.sender.id, p);
@@ -47,7 +50,40 @@ app.post('/webhook', function(req, res) {
 });
 
 function menuOpciones(recipientId) {
-
+    request({
+        url: 'https://graph.facebook.com/v2.6/me/messages',
+        qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+        method: 'POST',
+        json: {
+            recipient: { id: recipientId },
+            "message": {
+                "text": "Hola, como podemos ayudarte?",
+                "quick_replies": [{
+                    "content_type": "text",
+                    "title": "Recargas",
+                    "payload": "{ 'paso': 'RECARGA' }"
+                }, {
+                    "content_type": "text",
+                    "title": "Datos",
+                    "payload": "{ 'paso': 'DATOS' }"
+                }, {
+                    "content_type": "text",
+                    "title": "Consultar saldo",
+                    "payload": ""
+                }, {
+                    "content_type": "text",
+                    "title": "Ultimas 5 compras",
+                    "payload": ""
+                }]
+            }
+        }
+    }, function(error, response, body) {
+        if (error) {
+            console.log('Error sending message: ', error);
+        } else if (response.body.error) {
+            console.log('Error: ', response.body.error);
+        }
+    });
 }
 
 
@@ -77,6 +113,11 @@ function seleccionarCompania(recipientId, message) {
                     },
                     {
                         "content_type": "text",
+                        "title": "Nextel",
+                        "payload": "{ 'paso': 'COMPANIA', 'compania': 'Nextel' }"
+                    },
+                    {
+                        "content_type": "text",
                         "title": "Virgin",
                         "payload": "{ 'paso': 'COMPANIA', 'compania': 'Virgin' }"
                     },
@@ -84,6 +125,11 @@ function seleccionarCompania(recipientId, message) {
                         "content_type": "text",
                         "title": "Tuenti",
                         "payload": "{ 'paso': 'COMPANIA', 'compania': 'Tuenti' }"
+                    },
+                    {
+                        "content_type": "text",
+                        "title": "Alo",
+                        "payload": "{ 'paso': 'COMPANIA', 'compania': 'Alo' }"
                     }
                 ]
             }
@@ -110,35 +156,35 @@ function seleccionarMonto(recipientId, p) {
                 "quick_replies": [{
                     "content_type": "text",
                     "title": "$10",
-                    "payload": "{ 'paso': 'MONTO', 'compania': '" + p.compania + "', 'monto': '10' }"
+                    "payload": "{ 'paso': 'MONTO', 'compania': '" + p.compania + "', 'monto': 10 }"
                 }, {
                     "content_type": "text",
                     "title": "$20",
-                    "payload": "{ 'paso': 'MONTO', 'compania': '" + p.compania + "', 'monto': '20' }"
+                    "payload": "{ 'paso': 'MONTO', 'compania': '" + p.compania + "', 'monto': 20 }"
                 }, {
                     "content_type": "text",
                     "title": "$30",
-                    "payload": "{ 'paso': 'MONTO', 'compania': '" + p.compania + "', 'monto': '30' }"
+                    "payload": "{ 'paso': 'MONTO', 'compania': '" + p.compania + "', 'monto': 30 }"
                 }, {
                     "content_type": "text",
                     "title": "$50",
-                    "payload": "{ 'paso': 'MONTO', 'compania': '" + p.compania + "', 'monto': '50' }"
+                    "payload": "{ 'paso': 'MONTO', 'compania': '" + p.compania + "', 'monto': 50 }"
                 }, {
                     "content_type": "text",
                     "title": "$100",
-                    "payload": "{ 'paso': 'MONTO', 'compania': '" + p.compania + "', 'monto': '100' }"
+                    "payload": "{ 'paso': 'MONTO', 'compania': '" + p.compania + "', 'monto': 100 }"
                 }, {
                     "content_type": "text",
                     "title": "$200",
-                    "payload": "{ 'paso': 'MONTO', 'compania': '" + p.compania + "', 'monto': '200' }"
+                    "payload": "{ 'paso': 'MONTO', 'compania': '" + p.compania + "', 'monto': 200 }"
                 }, {
                     "content_type": "text",
                     "title": "$300",
-                    "payload": "{ 'paso': 'MONTO', 'compania': '" + p.compania + "', 'monto': '300' }"
+                    "payload": "{ 'paso': 'MONTO', 'compania': '" + p.compania + "', 'monto': 300 }"
                 }, {
                     "content_type": "text",
                     "title": "$500",
-                    "payload": "{ 'paso': 'MONTO', 'compania': '" + p.compania + "', 'monto': '500' }"
+                    "payload": "{ 'paso': 'MONTO', 'compania': '" + p.compania + "', 'monto': 500' }"
                 }]
             }
         }
