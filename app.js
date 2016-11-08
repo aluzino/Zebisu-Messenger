@@ -31,12 +31,12 @@ app.post('/webhook', function(req, res) {
                 menuOpciones(event.sender.id);
             } else if (event.message.text == 'Recarga' || event.message.text == 'recarga' || event.message.text == 'r' || event.message.text == 'R') {
                 seleccionarCompania(event.sender.id);
-            } else if (typeof event.message['quick_reply'] != 'undefined') {
-                var p = JSON.parse(event.message.quick_reply.payload);
-                console.log(JSON.stringify(p))
-                if (p.paso == 'COMPANIA') {
-                    seleccionarMonto(event.sender.id, p);
-                }
+            } else if (event.message['quick_reply']) {
+                var p = event.message.quick_reply.payload;
+                console.log(p)
+                    //if (p.paso == 'COMPANIA') {
+                    //seleccionarMonto(event.sender.id, p);
+                    //}
             }
         }
     }
