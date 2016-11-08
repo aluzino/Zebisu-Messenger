@@ -36,7 +36,7 @@ app.post('/webhook', function(req, res) {
 });
 
 
-function obtenerMontos(recipientId, message) {
+function seleccionarCompania(recipientId, message) {
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
@@ -44,7 +44,7 @@ function obtenerMontos(recipientId, message) {
         json: {
             recipient: { id: recipientId },
             "message": {
-                "text": "Pick a color:",
+                "text": "Selecciona la compañia:",
                 "quick_replies": [{
                         "content_type": "text",
                         "title": "Telcel",
@@ -83,7 +83,7 @@ function obtenerMontos(recipientId, message) {
 }
 
 
-function seleccionarCompania(recipientId, message) {
+function seleccionarMonto(recipientId, message) {
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
         qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
